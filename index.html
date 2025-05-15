@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            background: #000;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        audio {
+           width: 100%;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+       .table-container {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch; /* For smooth scrolling on mobile devices */
+        }
+        html, body {
+            margin: 5px; /* Get rid of default margins */
+            padding: 5px; /* Get rid of default padding */
+            overflow-x: hidden; /* Prevent horizontal overflow */
+        }
+        th, td {
+            padding: 4px;
+            text-align: left;
+            border: 1px solid #ddd;
+            font-size: 1em; /* Base font size */
+            white-space: nowrap;
+        }
+        p {
+            text-align: justify;
+            hyphens: auto;
+        }   
+        div {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            max-width: 100%;
+        }
+        /* Define a class for left-aligned text */
+        .left-align {
+            text-align: left;
+            hyphens: none;
+        } 
+        .container {
+            max-width: 100%;
+            background-color: #f4f4f4;
+            align-items: left;
+            overflow-x: auto; /* Handle overflow */
+            padding: 0;
+            margin: 0 auto;
+            position: relative; 
+        }
+        .inner-container {
+            width: calc(100% - 30px);
+            background-color: #f4f4f4;
+            align-items: left;
+            padding: 0;
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative; /* Relative positioning for absolute child positioning */
+        }
+        pre {
+            width: calc(100% - 30px);
+            background-color: #f4f4f4;
+            border: 0;
+            padding: 0px;
+            overflow: auto;
+            border-radius: 0px;
+            margin: 0;
+        }
+        code {
+            font-family: monospace;
+            padding: 0px;
+            margin: 0;
+        }
+        .highlight {
+            cursor: pointer;
+            padding: 4px 4px;
+            background-color: #f4f4f4;
+            border: 0;
+            color: white;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            max-width: 100%;
+            position: absolute;
+            top: 0; /* Position the button at the top */
+            right: 0; /* Position the button at the right edge */
+            margin: 5px; /* Small margin for aesthetics */
+        }
+        
+        .highlight svg {
+            fill: #4e4e4e;
+            margin-right: 5px;
+        }
+
+        .highlight:hover {
+            background-color: #d3d3d3;
+        }
+    </style>
+</head>
+<body>
+
+<h1>
+    Audio-Visual Examples
+</h1>
+
+<p>
+    Here we provide audio-visual examples of our method LipDiffuser compared to other methods. 
+</p>
+
+<h2>
+    LRS3 Test Set
+</h2>
+
+<p>Select a video file: &nbsp;&nbsp;
+    <select id="videoSelect">
+        <option value="ddxHlkIuHqg/00002">ddxHlkIuHqg/00002</option>
+        <option value="xlUPlxSpDRo/00001">xlUPlxSpDRo/00001</option>
+        <option value="x95nwilkaio/00001">x95nwilkaio/00001</option>
+        <option value="IS4IK8CiLg8/00002">IS4IK8CiLg8/00002</option>
+        <option value="PSlBlZ3hqKc/00012">PSlBlZ3hqKc/00012</option>
+        <option value="MvXZzKZ3JYQ/00001">MvXZzKZ3JYQ/00001</option>
+        <option value="jcp5vvxtEaU/00009">jcp5vvxtEaU/00009</option>
+        <option value="bArH8r8jJ4g/00002">bArH8r8jJ4g/00002</option>
+    </select>
+</p>
+
+<div id="videoTableContainer"></div>
+
+<h2>
+    References
+</h2>
+
+<ol id="refList" style="list-style-type: none; padding: 0;">
+    <!-- JavaScript will populate this list -->
+</ol>
+
+<script>
+    // Configuration for the table structure
+    const tableConfig = [
+        {
+            header: ["Original Video", "Enhanced Video", "Noisy", "AV-Gen <span class='reference' data-ref='avgen'>"],
+            rows: [
+                { playerId: "p1", sourceId: "s1", baseUrl: "https://github.com/sp-uhh/lip2speech/raw/refs/heads/main/assets/video/orig/" },
+                { playerId: "p2", sourceId: "s2", baseUrl: "https://github.com/sp-uhh/lip2speech/raw/refs/heads/main/assets/video/enhanced/" },
+                { playerId: "p3", sourceId: "s3", baseUrl: "https://github.com/sp-uhh/lip2speech/raw/refs/heads/main/assets/video/noisy/" },
+                { playerId: "p4", sourceId: "s4", baseUrl: "https://github.com/sp-uhh/lip2speech/raw/refs/heads/main/assets/video/avgen/" }
+            ]
+        },
+        {
+            header: ["IL2S (SSL) <span class='reference' data-ref='il2s'>", "DiffV2S <span class='reference' data-ref='diffv2s'>", "Lipvoicer <span class='reference' data-ref='lipvoicer'>", "LipDiffuser (ours)"],
+            rows: [
+                { playerId: "p5", sourceId: "s5", baseUrl: "https://github.com/sp-uhh/lip2speech/raw/refs/heads/main/assets/video/il2s_ssl/"},
+                { playerId: "p6", sourceId: "s6", baseUrl: "https://github.com/sp-uhh/lip2speech/raw/refs/heads/main/assets/video/diffv2s/" },
+                { playerId: "p7", sourceId: "s7", baseUrl: "https://github.com/sp-uhh/lip2speech/raw/refs/heads/main/assets/video/lipvoicer/" },
+                { playerId: "p8", sourceId: "s8", baseUrl: "https://github.com/sp-uhh/lip2speech/raw/refs/heads/main/assets/video/lipdiffuser/" }
+            ]
+        },
+    ];
+
+    // Function to generate the table dynamically
+    function generateTable() {
+        const container = document.getElementById("videoTableContainer");
+        const table = document.createElement("table");
+
+        tableConfig.forEach(section => {
+            // Add header row
+            const headerRow = document.createElement("tr");
+            section.header.forEach(headerText => {
+                const th = document.createElement("th");
+                th.innerHTML = headerText;
+                headerRow.appendChild(th);
+            });
+            table.appendChild(headerRow);
+
+            // Add video rows
+            const videoRow = document.createElement("tr");
+            section.rows.forEach(video => {
+                const td = document.createElement("td");
+                const videoElement = document.createElement("video");
+                videoElement.id = video.playerId;
+                videoElement.controls = true;
+                const sourceElement = document.createElement("source");
+                sourceElement.id = video.sourceId;
+                sourceElement.src = video.baseUrl + "ddxHlkIuHqg/00002.mp4";
+                sourceElement.type = "video/mp4";
+                videoElement.appendChild(sourceElement);
+                td.appendChild(videoElement);
+                videoRow.appendChild(td);
+            });
+            table.appendChild(videoRow);
+        });
+
+        container.appendChild(table);
+    }
+
+    // Function to update video sources
+    function playAudio() {
+        const selectedAudio = document.getElementById("videoSelect").value;
+
+        if (selectedAudio) {
+            tableConfig.forEach(section => {
+                section.rows.forEach(video => {
+                    const videoPlayer = document.getElementById(video.playerId);
+                    const videoSource = document.getElementById(video.sourceId);
+                    videoSource.src = video.baseUrl + selectedAudio + ".mp4";
+                    videoPlayer.load();
+                });
+            });
+        }
+    }
+
+    // Function to process references
+    function processReferences() {
+        const references = {
+            "avgen": "Julius Richter, Simone Frintrop, and Timo Gerkmann. Audio-visual speech enhancement with score-based generative models. Proceedings of ITG Conference on Speech Communication, pages 275-279, 2023.",
+            "diffv2s": "Jeongsoo Choi, Joanna Hong, and Yong Man Ro. DiffV2S: Diffusion-based video-to-speech synthesis with vision-guided speaker embedding. Proceedings of the IEEE/CVF International Conference on Computer Vision, pages 7812-7821, 2023.",
+            "lipvoicer": "Yochai Yemini, Aviv Shamsian, Lior Bracha, Sharon Gannot, and Ethan Fetaya. LipVoicer: Generating speech from silent videos guided by lip reading. Proceedings of International Conference on Learning Representations, 2024.",
+            "il2s": "Jeongsoo Choi, Minsu Kim, and Yong Man Ro. Intelligible lip-to-speech synthesis with speech units. Proceedings of ISCA Interspeech, pages 4349-4353, 2023.",
+        };
+
+        // Collect keys in order of their appearance
+        const referenceElements = document.querySelectorAll('.reference');
+        const orderedKeys = [];
+        referenceElements.forEach(element => {
+            const keys = element.dataset.ref.split(' ');
+            keys.forEach(key => {
+                if (!orderedKeys.includes(key) && references[key]) {
+                    orderedKeys.push(key);
+                }
+            });
+        });
+
+        // Populate references list
+        const refList = document.getElementById('refList');
+        const refTotal = orderedKeys.length;
+        const maxWidth = `${Math.ceil(Math.log10(refTotal + 1)) * 10 + 5}px`;
+
+        orderedKeys.forEach((key, index) => {
+            const refNumber = index + 1;
+            const li = document.createElement('li');
+            li.id = `ref-${refNumber}`;
+            li.style.display = 'flex';
+            li.style.alignItems = 'baseline';
+            li.style.marginBottom = '5px';
+
+            const numberSpan = document.createElement('span');
+            numberSpan.style.minWidth = maxWidth;
+            numberSpan.style.textAlign = 'right';
+            numberSpan.style.marginRight = '10px';
+            numberSpan.style.whiteSpace = 'nowrap';
+
+            const numberLink = document.createElement('a');
+            numberLink.href = `#cite-${key}-0`; 
+            numberLink.id = `link-${key}`;
+            numberLink.textContent = `[${refNumber}]`;
+            numberLink.style.textDecoration = 'none';
+            numberSpan.appendChild(numberLink);
+
+            const textSpan = document.createElement('span');
+            textSpan.textContent = references[key];
+
+            li.appendChild(numberSpan);
+            li.appendChild(textSpan);
+            refList.appendChild(li);
+        });
+
+        // Process in-text references
+        let referenceCounter = {};
+        document.querySelectorAll('.reference').forEach(span => {
+            const keys = span.dataset.ref.split(' ');
+            const refNumbers = keys.map(key => orderedKeys.indexOf(key) + 1);
+            
+            // Clear existing content
+            span.innerHTML = '';
+            
+            keys.forEach((key, i) => {
+                if (referenceCounter[key] === undefined) {
+                    referenceCounter[key] = 0;
+                } else {
+                    referenceCounter[key]++;
+                }
+
+                const refText = keys.length > 1 
+                    ? (i === 0 ? `[${refNumbers[i]}, ` : 
+                       i === keys.length - 1 ? `${refNumbers[i]}]` : 
+                       `${refNumbers[i]}, `)
+                    : `[${refNumbers[i]}]`;
+
+                const citeId = `cite-${key}-${referenceCounter[key]}`;
+                const citeLink = document.createElement('a');
+                citeLink.href = `#ref-${refNumbers[i]}`;
+                citeLink.textContent = refText;
+                citeLink.id = citeId;
+                citeLink.style.textDecoration = 'none';
+                citeLink.addEventListener('click', function() {
+                    const elem = document.getElementById(`link-${key}`);
+                    if (elem) elem.href = `#${this.id}`;
+                });
+
+                span.appendChild(citeLink);
+            });
+        });
+    }
+
+    // Initialize everything when DOM is loaded
+    document.addEventListener("DOMContentLoaded", function() {
+        generateTable();
+        processReferences();
+        
+        // Set up event listener for video selection
+        document.getElementById("videoSelect").addEventListener("change", playAudio);
+    });
+</script>
+
+</body>
+</html>
