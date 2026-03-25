@@ -131,6 +131,7 @@
 
 <p>Select a video file: &nbsp;&nbsp;
     <select id="videoSelect">
+        <option value="bArH8r8jJ4g/00002">bArH8r8jJ4g/00002</option>
         <option value="ddxHlkIuHqg/00002">ddxHlkIuHqg/00002</option>
         <option value="xlUPlxSpDRo/00001">xlUPlxSpDRo/00001</option>
         <option value="x95nwilkaio/00001">x95nwilkaio/00001</option>
@@ -138,7 +139,6 @@
         <option value="PSlBlZ3hqKc/00012">PSlBlZ3hqKc/00012</option>
         <option value="MvXZzKZ3JYQ/00001">MvXZzKZ3JYQ/00001</option>
         <option value="jcp5vvxtEaU/00009">jcp5vvxtEaU/00009</option>
-        <option value="bArH8r8jJ4g/00002">bArH8r8jJ4g/00002</option>
     </select>
 </p>
 
@@ -156,21 +156,30 @@
     // Configuration for the table structure
     const tableConfig = [
         {
-            header: ["Original Video", "Enhanced Video", "Noisy", "AV-Gen <span class='reference' data-ref='avgen'>"],
+            header: ["Silent Video", "Original Video", "Enhanced Video", "Noisy"],
             rows: [
-                { playerId: "p1", sourceId: "s1", baseUrl: "https://github.com/sp-uhh/lip2speech/raw/refs/heads/main/assets/video/orig/" },
-                { playerId: "p2", sourceId: "s2", baseUrl: "https://github.com/sp-uhh/lip2speech/raw/refs/heads/main/assets/video/enhanced/" },
-                { playerId: "p3", sourceId: "s3", baseUrl: "https://github.com/sp-uhh/lip2speech/raw/refs/heads/main/assets/video/noisy/" },
-                { playerId: "p4", sourceId: "s4", baseUrl: "https://github.com/sp-uhh/lip2speech/raw/refs/heads/main/assets/video/avgen/" }
+                { playerId: "p1", sourceId: "s1", baseUrl: "assets/video/silent/" },
+                { playerId: "p2", sourceId: "s2", baseUrl: "assets/video/orig/" },
+                { playerId: "p3", sourceId: "s3", baseUrl: "assets/video/enhanced/" },
+                { playerId: "p4", sourceId: "s4", baseUrl: "assets/video/noisy/" },
             ]
         },
         {
-            header: ["IL2S (SSL) <span class='reference' data-ref='il2s'>", "DiffV2S <span class='reference' data-ref='diffv2s'>", "Lipvoicer <span class='reference' data-ref='lipvoicer'>", "LipDiffuser (ours)"],
+            header: ["AV-Gen <span class='reference' data-ref='avgen'>", "IL2S (SSL) <span class='reference' data-ref='il2s'>", "DiffV2S <span class='reference' data-ref='diffv2s'>", "LipVoicer <span class='reference' data-ref='lipvoicer'>"],
             rows: [
-                { playerId: "p5", sourceId: "s5", baseUrl: "https://github.com/sp-uhh/lip2speech/raw/refs/heads/main/assets/video/il2s_ssl/"},
-                { playerId: "p6", sourceId: "s6", baseUrl: "https://github.com/sp-uhh/lip2speech/raw/refs/heads/main/assets/video/diffv2s/" },
-                { playerId: "p7", sourceId: "s7", baseUrl: "https://github.com/sp-uhh/lip2speech/raw/refs/heads/main/assets/video/lipvoicer/" },
-                { playerId: "p8", sourceId: "s8", baseUrl: "https://github.com/sp-uhh/lip2speech/raw/refs/heads/main/assets/video/lipdiffuser/" }
+                { playerId: "p5", sourceId: "s5", baseUrl: "assets/video/avgen/" },
+                { playerId: "p6", sourceId: "s6", baseUrl: "assets/video/il2s_ssl/"},
+                { playerId: "p7", sourceId: "s7", baseUrl: "assets/video/diffv2s/" },
+                { playerId: "p8", sourceId: "s8", baseUrl: "assets/video/lipvoicer/" },
+            ]
+        },
+        {
+            header: ["F2V (10 steps) <span class='reference' data-ref='f2v_10'>", "V2SFlow (A) <span class='reference' data-ref='v2sflow_a'>", "LipDiffuser (ours)", "LipDiffuser + CFG (ours)"],
+            rows: [
+                { playerId: "p9",  sourceId: "s9",  baseUrl: "assets/video/f2v_10/"},
+                { playerId: "p10", sourceId: "s10", baseUrl: "assets/video/v2sflow_a/" },
+                { playerId: "p11", sourceId: "s11", baseUrl: "assets/video/lipdiffuser/" },
+                { playerId: "p12", sourceId: "s12", baseUrl: "assets/video/lipdiffuser_cfg/" }
             ]
         },
     ];
@@ -199,7 +208,7 @@
                 videoElement.controls = true;
                 const sourceElement = document.createElement("source");
                 sourceElement.id = video.sourceId;
-                sourceElement.src = video.baseUrl + "ddxHlkIuHqg/00002.mp4";
+                sourceElement.src = video.baseUrl + "bArH8r8jJ4g/00002.mp4";
                 sourceElement.type = "video/mp4";
                 videoElement.appendChild(sourceElement);
                 td.appendChild(videoElement);
@@ -234,6 +243,8 @@
             "diffv2s": "Jeongsoo Choi, Joanna Hong, and Yong Man Ro. DiffV2S: Diffusion-based video-to-speech synthesis with vision-guided speaker embedding. Proceedings of the IEEE/CVF International Conference on Computer Vision, pages 7812-7821, 2023.",
             "lipvoicer": "Yochai Yemini, Aviv Shamsian, Lior Bracha, Sharon Gannot, and Ethan Fetaya. LipVoicer: Generating speech from silent videos guided by lip reading. Proceedings of International Conference on Learning Representations, 2024.",
             "il2s": "Jeongsoo Choi, Minsu Kim, and Yong Man Ro. Intelligible lip-to-speech synthesis with speech units. Proceedings of ISCA Interspeech, pages 4349-4353, 2023.",
+            "f2v_10": "Ji-Hoon Kim, Jeongsoo Choi, Jaehun Kim, Chaeyoung Jung, and Joon Son Chung. From Faces to Voices: Learning Hierarchical Representations for High-quality Video-to-Speech. Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition, pages 15874-15884, 2025",
+            "v2sflow_a": "Jeongsoo Choi, Ji-Hoon Kim, Jinyu Li, Joon Son Chung, and Shujie Liu. V2SFlow: Video-to-Speech Generation with Speech Decomposition and Rectified Flow. IEEE International Conference on Acoustics, Speech and Signal Processing, 2025.",
         };
 
         // Collect keys in order of their appearance
