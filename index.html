@@ -113,6 +113,41 @@
         .highlight:hover {
             background-color: #d3d3d3;
         }
+
+        /* Listening experiment figure styles */
+        .listening-figure {
+            margin: 1.5em 0 0.5em 0;
+            padding: 0;
+        }
+        .listening-plots {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            width: 100%;
+        }
+        .listening-plots img {
+            flex: 1 1 0;
+            min-width: 0;
+            width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            background: #fff;
+        }
+        .listening-caption {
+            margin-top: 0.6em;
+            font-size: 0.9em;
+            color: #444;
+            text-align: justify;
+            hyphens: auto;
+        }
+        @media (max-width: 600px) {
+            .listening-plots {
+                flex-direction: column;
+            }
+            .listening-plots img {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -143,6 +178,30 @@
 </p>
 
 <div id="videoTableContainer"></div>
+
+<h2>
+    Listening Experiment
+</h2>
+
+<p>
+    We conducted a formal MUSHRA-like listening experiment with 15 participants, using randomly selected samples from the LRS3-CHiME3 dataset (at -10dB SNR) and focusing on the aspects of speech quality and speaker similarity. The results follow a similar trend to the instrumental metrics, with LipDiffuser showing a high mean score compared to the baselines, as well as a relatively narrower score distribution for both speech quality and speaker similarity.
+</p>
+
+<figure class="listening-figure">
+    <div class="listening-plots">
+        <div>
+            <p style="text-align: center; margin-bottom: 4px;"><strong>Speech Quality</strong></p>
+            <img src="assets/img/listening_qual.png" alt="Listening experiment results: speech quality">
+        </div>
+        <div>
+            <p style="text-align: center; margin-bottom: 4px;"><strong>Speaker Similarity</strong></p>
+            <img src="assets/img/listening_sim.png" alt="Listening experiment results: speaker similarity">
+        </div>
+    </div>
+    <figcaption class="listening-caption">
+        Results of formal listening experiments. Participants were instructed to rate the overall speech quality or speaker similarity compared to a reference on a continuous scale from 0 to 100. The boxes show the 1st and 3rd quartiles along with the median (solid line) and mean (diamond marker). The whiskers cover datapoints lying within 1.5 times the inter-quartile range from the box.
+    </figcaption>
+</figure>
 
 <h2>
     References
